@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Salle</title>
+  <meta name="theme-color" content="#0e0e10">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Salle">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="view"></main>
+
+  <div id="restbar" hidden>
+    <button class="rb-btn" data-act="t-minus" aria-label="Moins 15 secondes">−15</button>
+    <div class="rb-mid">
+      <div class="rb-time" id="rb-time">0:00</div>
+      <div class="rb-label" id="rb-label"></div>
+      <div class="rb-prog"><i id="rb-prog"></i></div>
+    </div>
+    <button class="rb-btn" data-act="t-plus" aria-label="Plus 15 secondes">+15</button>
+    <button class="rb-btn rb-skip" data-act="t-skip">Passer</button>
+  </div>
+
+  <nav id="tabs">
+    <button data-act="tab" data-tab="workout">
+      <svg viewBox="0 0 24 24"><path d="M3 10v4M6 7v10M18 7v10M21 10v4M6 12h12"/></svg>
+      <span>Séance</span>
+    </button>
+    <button data-act="tab" data-tab="exercises">
+      <svg viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>
+      <span>Exercices</span>
+    </button>
+    <button data-act="tab" data-tab="progress">
+      <svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 8-9M14 7h6v6"/></svg>
+      <span>Progrès</span>
+    </button>
+    <button data-act="tab" data-tab="settings">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>
+      <span>Réglages</span>
+    </button>
+  </nav>
+
+  <div id="modals"></div>
+  <div id="toast" hidden></div>
+  <div id="flash" hidden data-act="flash-close"><div>Repos terminé</div></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
