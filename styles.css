@@ -32,7 +32,13 @@
 }
 
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+/* iOS (appli écran d'accueil + barre d'état translucide) : sans ça, une page plus courte
+   que l'écran laisse une bande noire en bas, de la hauteur de la barre d'état. */
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--bg);
+  min-height: calc(100% + env(safe-area-inset-top));
+}
 body {
   margin: 0;
   background: var(--bg);
