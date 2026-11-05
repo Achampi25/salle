@@ -1,6 +1,6 @@
 // Onglet Progrès + fiche exercice + détail d'une séance.
 import { state, save, pref, setPref } from './store.js';
-import { getEx, profile, fieldLabels, MUSCLES, EQUIP } from './exercises.js';
+import { getEx, profile, fieldLabels, MUSCLES, EQUIP, demo, thumb } from './exercises.js';
 import { actions, inputs, app, esc, fmt, mmss, fmtDate, fmtLong, fmtAgo, dayKey, modal, sheetMenu, askConfirm, keypad, toast } from './ui.js';
 import { METRICS, history, sessionStats, setText, lineChart, sparkline } from './stats.js';
 
@@ -57,6 +57,7 @@ function exList() {
     const vals = h.map(x => sessionStats(x.sets)[m.k]).filter(v => v > 0);
     const best = vals.length ? Math.max(...vals) : 0;
     return `<button class="ex-item" data-act="pg-ex" data-id="${exId}">
+      ${thumb(ex)}
       <span class="ex-txt"><b>${esc(ex.name)}</b><small>${h.length} séance${h.length > 1 ? 's' : ''} · ${fmtAgo(h.at(-1).date)}</small></span>
       <span class="ex-best">${sparkline(vals.slice(-12))}<small>${m.label}</small><b>${fmt(best, 1)} ${m.unit}</b></span>
     </button>`;
@@ -99,7 +100,7 @@ export function exDetail(exId) {
       const meta = metrics.find(x => x.k === k);
       const pts = h.map(x => ({ x: x.date, y: sessionStats(x.sets)[k] })).filter(p => p.y > 0);
       const best = key => Math.max(0, ...h.map(x => sessionStats(x.sets)[key]));
-      return `<p class="muted">${MUSCLES[ex.muscle] || ''} · ${EQUIP[ex.equip] || ''}</p>
+      return `${demo(ex)}<p class="muted">${MUSCLES[ex.muscle] || ''} · ${EQUIP[ex.equip] || ''}</p>
         ${h.length ? `<div class="tiles">
           ${metrics.slice(0, 2).map(x => `<div class="tile"><small>${x.label}</small><b>${fmt(best(x.k), 1)} ${x.unit}</b></div>`).join('')}
           <div class="tile"><small>Séances</small><b>${h.length}</b></div>

@@ -1,6 +1,6 @@
 // Onglet Séance : séance en cours, modèles, fin de séance.
 import { state, save, uid, pref, setPref } from './store.js';
-import { getEx, fieldLabels, profile } from './exercises.js';
+import { getEx, fieldLabels, profile, thumb } from './exercises.js';
 import { actions, inputs, app, $, esc, fmt, mmss, fmtLong, fmtAgo, modal, sheetMenu, askConfirm, askText, keypad, toast } from './ui.js';
 import { isRecord, lastSets, sessionStats, setText } from './stats.js';
 import * as timer from './timer.js';
@@ -118,7 +118,7 @@ function renderItem(it, i) {
   }).join('');
   return `<section class="card ex-card">
     <div class="ex-head">
-      <button class="ex-name" data-act="w-ex-info" data-i="${i}">${esc(ex.name)}</button>
+      <button class="ex-name" data-act="w-ex-info" data-i="${i}">${thumb(ex, 'sm')}<span>${esc(ex.name)}</span></button>
       <button class="icon" data-act="w-ex-menu" data-i="${i}" aria-label="Options">⋯</button>
     </div>
     ${note ? `<p class="ex-note">📝 ${esc(note)}</p>` : ''}

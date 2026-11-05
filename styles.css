@@ -107,7 +107,16 @@ body.resting #view { padding-bottom: calc(var(--tabs-h) + env(safe-area-inset-bo
 .w-title span { color: var(--accent); font-variant-numeric: tabular-nums; font-weight: 600; }
 .ex-card { padding: 10px 10px 6px; }
 .ex-head { display: flex; align-items: center; }
-.ex-name { flex: 1; text-align: left; font-weight: 700; font-size: 17px; color: var(--accent); padding: 6px 4px; }
+.ex-name { flex: 1; display: flex; align-items: center; gap: 10px; text-align: left; font-weight: 700; font-size: 17px; color: var(--accent); padding: 4px; min-width: 0; }
+
+/* Images d'exercices */
+.thumb { width: 52px; height: 40px; border-radius: 8px; object-fit: cover; flex: none; background: #fff; }
+.thumb.sm { width: 46px; height: 34px; }
+.thumb.ph { display: inline-flex; align-items: center; justify-content: center; background: var(--card2); color: var(--muted); font-size: 13px; font-weight: 700; }
+.demo { position: relative; aspect-ratio: 3 / 2; border-radius: 14px; overflow: hidden; background: #fff; margin: 4px 0 10px; }
+.demo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.demo img.end { animation: demo-swap 2.4s steps(1) infinite; }
+@keyframes demo-swap { 0% { opacity: 0; } 50% { opacity: 1; } }
 .ex-note { margin: 0 4px 6px; font-size: 14px; color: var(--muted); }
 .set {
   display: grid; grid-template-columns: 34px minmax(0, 1fr) 70px 58px 52px;

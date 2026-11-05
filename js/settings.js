@@ -41,7 +41,8 @@ export function render() {
         <input type="file" accept=".json,application/json" data-change="st-import" hidden></label>
     </div>
 
-    <p class="muted small center">Salle v${VERSION} · ${state.workouts.length} séance(s) enregistrée(s)</p>
+    <p class="muted small center">Salle v${VERSION} · ${state.workouts.length} séance(s) enregistrée(s)<br>
+      Images d'exercices : free-exercise-db (domaine public)</p>
   </div>`;
 }
 

@@ -1,6 +1,6 @@
 // Onglet Exercices + sélecteur d'exercices + création d'exercices perso.
 import { state, save, uid, pref } from './store.js';
-import { MUSCLES, EQUIP, KINDS, allExercises, getEx } from './exercises.js';
+import { MUSCLES, EQUIP, KINDS, allExercises, getEx, thumb } from './exercises.js';
 import { actions, inputs, app, $, esc, norm, fmtAgo, modal, askConfirm, toast } from './ui.js';
 import { lastMap } from './stats.js';
 import { exDetail } from './progress.js';
@@ -29,6 +29,7 @@ function listHTML({ query, mus, mode, selected = [] }) {
     const lastTxt = l ? ` · ${fmtAgo(l.date)}` : '';
     const fav = pref(e.id).fav;
     return `<button class="ex-item ${sel ? 'sel' : ''}" data-act="${mode === 'pick' ? 'pk-toggle' : 'exv-open'}" data-id="${e.id}">
+      ${thumb(e)}
       <span class="ex-txt"><b>${esc(e.name)}</b><small>${MUSCLES[e.muscle] || ''} · ${EQUIP[e.equip] || ''}${lastTxt}</small></span>
       ${mode === 'pick' ? `<span class="tick">${sel ? '✓' : ''}</span>` : (fav ? '<span class="star">★</span>' : '')}
     </button>`;

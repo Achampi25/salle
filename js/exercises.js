@@ -196,6 +196,25 @@ export const DEFAULT_EXERCISES = Object.entries(RAW).flatMap(([muscle, txt]) =>
 
 const byId = new Map(DEFAULT_EXERCISES.map(e => [e.id, e]));
 
+// Exercices ayant des images (img/<id>-0.jpg et -1.jpg : position de départ et d'arrivée).
+// Source : free-exercise-db (github.com/yuhonas/free-exercise-db), domaine public.
+const WITH_IMG = new Set(`abduction-machine adduction-machine arrache-snatch barre-au-front bucheron-poulie corde-a-sauter crunch crunch-machine crunch-poulie-haute curl-alterne-halteres curl-araignee curl-barre curl-barre-ez curl-concentre curl-halteres curl-incline-halteres curl-inverse curl-marteau curl-poignets curl-poignets-inverse curl-poulie-basse curl-poulie-haute curl-pupitre-larry-scott curl-pupitre-machine developpe-arnold developpe-assis-machine-chest-press developpe-couche-barre developpe-couche-halteres developpe-couche-prise-serree developpe-couche-smith developpe-decline-barre developpe-decline-halteres developpe-epaules-halteres-assis developpe-epaules-machine developpe-incline-barre developpe-incline-halteres developpe-incline-machine developpe-incline-smith developpe-militaire-barre dips-machine dips-pectoraux dips-triceps ecarte-couche-halteres ecarte-incline-halteres ecarte-poulie-basse ecarte-poulie-vis-a-vis elevations-frontales-disque elevations-frontales-halteres elevations-laterales-halteres elevations-laterales-poulie epaule-power-clean extension-nuque-haltere extension-triceps-machine extension-triceps-poulie-au-dessus-de-la-tete extension-triceps-poulie-barre extension-triceps-poulie-corde extensions-lombaires face-pull farmer-walk fentes-avant-halteres fentes-barre fentes-bulgares fentes-marchees gainage-lateral gainage-planche glute-ham-raise good-morning hack-squat hip-thrust-barre kettlebell-swing kickback-fessier-machine kickback-fessier-poulie kickback-haltere landmine-press leg-curl-allonge leg-curl-assis leg-curl-debout leg-extension mollets-a-la-presse mollets-assis-machine mollets-debout-haltere mollets-debout-machine mollets-smith mountain-climbers nordic-curl oiseau-halteres pallof-press pec-deck-butterfly pompes pompes-declinees pompes-diamant pont-fessier presse-a-cuisses pull-over-haltere pull-over-poulie-bras-tendus push-press rack-pull rameur releve-de-jambes-chaise-romaine releve-de-jambes-suspendu reverse-pec-deck roue-abdominale rowing-assis-poulie rowing-barre rowing-haltere-unilateral rowing-inverse rowing-machine rowing-menton rowing-pendlay rowing-t-bar russian-twist shrug-barre shrug-halteres sissy-squat sit-up-decline souleve-de-terre souleve-de-terre-jambes-tendues souleve-de-terre-roumain-barre souleve-de-terre-roumain-halteres souleve-de-terre-sumo squat-avant-front-squat squat-barre squat-gobelet squat-smith step-up stepper-escalier tapis-de-course thruster tirage-vertical-poitrine tirage-vertical-prise-serree tirage-vertical-supination tractions-assistees-machine tractions-pronation tractions-supination turkish-get-up velo velo-elliptique`.split(' '));
+
+export const hasImg = id => WITH_IMG.has(id);
+export const imgUrl = (id, k = 0) => `img/${id}-${k}.jpg`;
+
+/** Petite vignette (ou pastille avec l'initiale du muscle si pas d'image). */
+export function thumb(ex, cls = '') {
+  if (hasImg(ex.id)) return `<img class="thumb ${cls}" src="${imgUrl(ex.id)}" alt="" loading="lazy" decoding="async">`;
+  return `<span class="thumb ph ${cls}">${(MUSCLES[ex.muscle] || '?').slice(0, 2)}</span>`;
+}
+
+/** Grande image animée (alterne départ / arrivée du mouvement). */
+export function demo(ex) {
+  if (!hasImg(ex.id)) return '';
+  return `<div class="demo"><img src="${imgUrl(ex.id, 0)}" alt="Position de départ"><img class="end" src="${imgUrl(ex.id, 1)}" alt="Position d'arrivée"></div>`;
+}
+
 export function allExercises() {
   return [...DEFAULT_EXERCISES, ...state.custom];
 }

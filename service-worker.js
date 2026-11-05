@@ -1,5 +1,6 @@
 // Cache hors-ligne. Changer CACHE à chaque publication pour forcer la mise à jour.
-const CACHE = 'salle-v1.0.1';
+const CACHE = 'salle-v1.1.0';
+const IMG_CACHE = 'salle-img'; // conservé entre les versions
 const ASSETS = [
   './',
   './index.html',
@@ -29,7 +30,7 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE && k !== IMG_CACHE).map(k => caches.delete(k))))
       .then(() => self.clients.claim()),
   );
 });
@@ -37,9 +38,16 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
+  const isImg = new URL(req.url).pathname.includes('/img/');
   e.respondWith(
-    caches.match(req, { ignoreSearch: true }).then(hit => hit || fetch(req).catch(() =>
-      req.mode === 'navigate' ? caches.match('./index.html') : Response.error())),
+    caches.match(req, { ignoreSearch: true }).then(hit => hit || fetch(req).then(res => {
+      // Images d'exercices : mises en cache au premier affichage (dispo hors-ligne ensuite).
+      if (isImg && res.ok) {
+        const copy = res.clone();
+        caches.open(IMG_CACHE).then(c => c.put(req, copy));
+      }
+      return res;
+    }).catch(() => (req.mode === 'navigate' ? caches.match('./index.html') : Response.error()))),
   );
 });
 
