@@ -1,5 +1,5 @@
 // Cache hors-ligne. Changer CACHE à chaque publication pour forcer la mise à jour.
-const CACHE = 'salle-v1.2.0';
+const CACHE = 'salle-v1.2.1';
 const ASSETS = [
   './',
   './index.html',

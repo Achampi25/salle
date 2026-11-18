@@ -7,6 +7,8 @@ import { eq, sh, add, dir, GROUND as G, S } from './figures.js';
 const A = (to, bend, fs) => ({ to, bend, fs });                 // un membre
 const both = (to, bend, fs) => [A([to[0] - 2, to[1]], bend, fs), A(to, bend, fs)]; // les deux bras (profil)
 const UP = [0, -1], DOWN = [0, 1], FWD = [1, 0], BACK = [-1, 0];
+// Presse inclinée (allongé sur le dos, jambes vers le haut) : genoux vers la poitrine.
+const KNEE_UP = [-0.6, -1];
 const v = (x, y) => [x, y];
 const unit = a => dir(a, 1);
 const mul = (p, k) => [p[0] * k, p[1] * k];
@@ -21,7 +23,7 @@ const hipFromNeck = (neck, torso) => add(neck, dir(torso + 180, S.torso));
 /** Corps gainé en ligne droite des pieds au cou (pompes, planche…). */
 function lineBody(feet, neck) {
   const d = sub(neck, feet), u = mul(d, 1 / len(d));
-  const hip = add(feet, mul(u, 72.5));
+  const hip = add(feet, mul(u, 73.5)); // jambes tendues (au-delà de la portée = droites)
   return { hip, torso: angOf(hip, neck), tl: len(sub(neck, hip)) / S.torso, legs: [A([feet[0] - 2, feet[1]]), A(feet)] };
 }
 
@@ -459,8 +461,8 @@ function legPress() {
   return {
     bg: [sh.line([60, 176], [112, 128], 'st', 9), sh.line([92, 150], [96, G], 'st', 5), sh.line([150, 160], [250, 60], 'rail', 3)],
     f: [
-      { hip: [118, 152], torso: 140, arms: both([118, 160]), legs: [A([168, 100]), A([171, 103])] },
-      { hip: [118, 152], torso: 140, arms: both([118, 160]), legs: [A([152, 122]), A([156, 124])] },
+      { hip: [118, 152], torso: 140, arms: both([118, 160]), legs: [A([168, 100], KNEE_UP), A([171, 103], KNEE_UP)] },
+      { hip: [118, 152], torso: 140, arms: both([118, 160]), legs: [A([152, 122], KNEE_UP), A([156, 124], KNEE_UP)] },
     ],
     eq: j => [sh.line(add(j.feet[1], [-15, -15]), add(j.feet[1], [15, 15]), 'eq', 6)],
   };
@@ -500,7 +502,7 @@ function legCurl({ kind = 'allonge' } = {}) {
     const hip = [148, 132];
     return {
       bg: [sh.line([60, 141], [200, 141], 'st', 8), sh.line([74, 145], [74, G], 'st', 5), sh.line([186, 145], [186, G], 'st', 5)],
-      f: [{ hip, torso: 180, arms: both([86, 156], DOWN), legs: [A([219, 134]), A([221, 132])] },
+      f: [{ hip, torso: 180, arms: both([86, 156], DOWN), legs: [A([224, 134]), A([226, 132])] },
         { hip, torso: 180, arms: both([86, 156], DOWN), legs: [A([178, 80], [1, 0.4]), A([180, 82], [1, 0.4])] }],
       eq: j => [sh.circle(add(j.feet[1], [0, -6]), 6, 'plate')],
     };
@@ -601,8 +603,8 @@ function calf({ kind = 'debout' } = {}) {
   if (kind === 'presse') {
     const lp = legPress();
     lp.f = [
-      { hip: [118, 152], torso: 140, arms: both([118, 160]), legs: [A([162, 106]), A([165, 108])] },
-      { hip: [118, 152], torso: 140, arms: both([118, 160]), legs: [A([167, 101]), A([170, 104])] },
+      { hip: [118, 152], torso: 140, arms: both([118, 160]), legs: [A([162, 106], KNEE_UP), A([165, 108], KNEE_UP)] },
+      { hip: [118, 152], torso: 140, arms: both([118, 160]), legs: [A([167, 101], KNEE_UP), A([170, 104], KNEE_UP)] },
     ];
     return lp;
   }
@@ -711,7 +713,7 @@ function dragonFlag() {
   const neck = [110, 176];
   const pose = a => {
     const hip = add(neck, dir(a, S.torso));
-    return { hip, torso: a + 180, head: [94, 176], legs: both(add(hip, dir(a, 72.5))), arms: both([74, 178], UP) };
+    return { hip, torso: a + 180, head: [94, 176], legs: [A(add(hip, dir(a, 74))), A(add(hip, dir(a, 74)))], arms: both([74, 178], UP) };
   };
   return { bg: [sh.line([60, 184], [200, 184], 'st', 7), sh.line([80, 186], [80, G], 'st', 4), sh.line([180, 186], [180, G], 'st', 4)], f: [pose(48), pose(14)] };
 }
