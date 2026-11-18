@@ -1,7 +1,7 @@
 import * as db from './db.js';
 
 // À incrémenter à chaque publication (avec CACHE dans service-worker.js).
-export const VERSION = '1.1.0';
+export const VERSION = '1.2.0';
 
 export const DEFAULT_SETTINGS = {
   rest: 90,            // secondes

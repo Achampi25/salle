@@ -41,8 +41,7 @@ export function render() {
         <input type="file" accept=".json,application/json" data-change="st-import" hidden></label>
     </div>
 
-    <p class="muted small center">Salle v${VERSION} · ${state.workouts.length} séance(s) enregistrée(s)<br>
-      Images d'exercices : free-exercise-db (domaine public)</p>
+    <p class="muted small center">Salle v${VERSION} · ${state.workouts.length} séance(s) enregistrée(s)</p>
   </div>`;
 }
 
@@ -67,6 +66,8 @@ actions['st-plate'] = el => {
 actions['st-export'] = async () => {
   const data = { app: 'salle', format: 1, exportedAt: Date.now() };
   for (const k of KEYS) if (k !== 'active') data[k] = state[k];
+  // L'abonnement aux notifications reste sur le téléphone (pas dans les sauvegardes).
+  data.settings = { ...data.settings, push: false, pushSub: undefined };
   const name = `salle-sauvegarde-${new Date().toISOString().slice(0, 10)}.json`;
   const file = new File([JSON.stringify(data)], name, { type: 'application/json' });
   const done = () => { state.settings.lastExport = Date.now(); save('settings'); app.render(); toast('Sauvegarde exportée'); };

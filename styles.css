@@ -13,6 +13,7 @@
   --danger: #d93636;
   --radius: 14px;
   --tabs-h: 58px;
+  --fig-struct: #b4b7c2;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -27,6 +28,7 @@
     --ok: #2fc275;
     --ok-soft: rgba(47, 194, 117, .16);
     --danger: #ff5c5c;
+    --fig-struct: #4a4a55;
     color-scheme: dark;
   }
 }
@@ -109,14 +111,36 @@ body.resting #view { padding-bottom: calc(var(--tabs-h) + env(safe-area-inset-bo
 .ex-head { display: flex; align-items: center; }
 .ex-name { flex: 1; display: flex; align-items: center; gap: 10px; text-align: left; font-weight: 700; font-size: 17px; color: var(--accent); padding: 4px; min-width: 0; }
 
-/* Images d'exercices */
-.thumb { width: 52px; height: 40px; border-radius: 8px; object-fit: cover; flex: none; background: #fff; }
-.thumb.sm { width: 46px; height: 34px; }
-.thumb.ph { display: inline-flex; align-items: center; justify-content: center; background: var(--card2); color: var(--muted); font-size: 13px; font-weight: 700; }
-.demo { position: relative; aspect-ratio: 3 / 2; border-radius: 14px; overflow: hidden; background: #fff; margin: 4px 0 10px; }
-.demo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.demo img.end { animation: demo-swap 2.4s steps(1) infinite; }
-@keyframes demo-swap { 0% { opacity: 0; } 50% { opacity: 1; } }
+/* Illustrations dessinées */
+.fig { display: block; width: 100%; height: auto; background: var(--card2); border-radius: 12px; }
+.fig .limb, .fig .torso { fill: none; stroke: var(--text); stroke-linecap: round; stroke-linejoin: round; stroke-width: 5.5; }
+.fig .torso { stroke-width: 9; }
+.fig .neckl { fill: none; stroke: var(--text); stroke-linecap: round; stroke-width: 5; }
+.fig .limb.back { stroke: var(--muted); opacity: .75; }
+.fig .headc { fill: var(--text); }
+.fig .st, .fig .rail { fill: none; stroke: var(--fig-struct); stroke-linecap: round; stroke-width: 6; }
+.fig circle.st, .fig .stf { fill: var(--fig-struct); stroke: none; }
+.fig .rail { stroke-width: 3; stroke-dasharray: 2 5; }
+.fig .eq { fill: none; stroke: var(--accent); stroke-linecap: round; stroke-width: 5; }
+.fig circle.eq, .fig .plate { fill: var(--accent); stroke: none; }
+.fig .hub { fill: var(--card2); }
+.fig .cable { fill: none; stroke: var(--accent); stroke-width: 1.6; opacity: .8; }
+.fig .floor { stroke: var(--line); stroke-width: 2; }
+
+/* Vignettes et grande illustration */
+.thumb { display: block; width: 54px; height: 36px; border-radius: 8px; overflow: hidden; flex: none; background: var(--card2); }
+.thumb.sm { width: 48px; height: 32px; }
+.thumb .fig { width: 100%; height: 100%; border-radius: 0; }
+/* Traits plus épais en petit format pour rester lisibles. */
+.thumb .fig .limb { stroke-width: 8; }
+.thumb .fig .torso { stroke-width: 12; }
+.thumb .fig .neckl { stroke-width: 7; }
+.thumb .fig .st, .thumb .fig .eq { stroke-width: 8; }
+.thumb .fig .cable { stroke-width: 2.5; }
+.thumb.ph { display: inline-flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; font-weight: 700; }
+.demo { margin: 4px 0 10px; }
+.demo .fig { border-radius: 14px; }
+@media (prefers-reduced-motion: reduce) { .demo .fig animate { display: none; } }
 .ex-note { margin: 0 4px 6px; font-size: 14px; color: var(--muted); }
 .set {
   display: grid; grid-template-columns: 34px minmax(0, 1fr) 70px 58px 52px;
